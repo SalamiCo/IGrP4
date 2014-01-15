@@ -14,6 +14,7 @@
 #include <stdlib.h>
 
 #include "Tree.h"
+#include "TextureLoader.h"
 
 //---------------------------------------------------------------------------
 class TGLForm2D : public TForm{
