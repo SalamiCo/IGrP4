@@ -10,7 +10,7 @@ USEUNIT("Tree.cpp");
 USEUNIT("Square.cpp");
 USEUNIT("PointCoord.cpp");
 USEUNIT("Pencil.cpp");
-USEUNIT("TextureLoader.cpp");
+USEUNIT("UBmpRGBA.cpp");
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
