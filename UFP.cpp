@@ -95,7 +95,6 @@ void __fastcall TGLForm2D::FormResize(TObject *Sender)
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    GLScene();
 }
 //---------------------------------------------------------------------------
 void __fastcall TGLForm2D::GLScene()
@@ -109,11 +108,10 @@ void __fastcall TGLForm2D::GLScene()
         tree.DrawTree(selectedSquare);
     }*/
 
-    unsigned int width, height;
-    unsigned char imagepath[] = "C:/Users/Samuel/Downloads/sample.bmp";
-    unsigned char * data = loadBMPRaw(imagepath, width, height);
+    
+    string imagepath = "C:/Users/Samuel/Downloads/sample.bmp";
     // Create one OpenGL texture
-    GLuint textureID;
+    /*GLuint textureID;
     glGenTextures(1, &textureID);
 
     // "Bind" the newly created texture : all future texture functions will modify this texture
@@ -131,8 +129,12 @@ void __fastcall TGLForm2D::GLScene()
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR); 
-    glGenerateMipmap(GL_TEXTURE_2D);
-    delete[] data;
+    glGenerateMipmap(GL_TEXTURE_2D);*/
+    if(bmp.cargaBMP(imagepath)){
+        ShowMessage("BMP cargado con exito");
+    } else{
+        ShowMessage("Carga de BMP fallida");
+    }
 
     glFlush();
     SwapBuffers(hdc);

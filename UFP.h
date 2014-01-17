@@ -14,7 +14,7 @@
 #include <stdlib.h>
 
 #include "Tree.h"
-#include "TextureLoader.h"
+#include "UBmpRGBA.h"
 
 //---------------------------------------------------------------------------
 class TGLForm2D : public TForm{
@@ -47,6 +47,8 @@ private:	// User declarations
  	//Embaldosar
  	bool baldosas;
  	AnsiString input;
+ 	//BMP
+ 	BMPRGBA bmp;
 
  	// Private methods
  	void __fastcall SetPixelFormatDescriptor();
