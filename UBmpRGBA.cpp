@@ -25,7 +25,6 @@ bool BMPRGBA::cargaBMP(const string& arch){
 }
 
 void BMPRGBA::recoloca(Graphics::TBitmap* AuxBMP){
-        
         pixmap = new colorRGBA[AuxBMP->Width * AuxBMP->Height];
         nCols=AuxBMP->Width;
         nRows=AuxBMP->Height;
@@ -40,7 +39,16 @@ void BMPRGBA::recoloca(Graphics::TBitmap* AuxBMP){
                         //pixmap[count][3]=255;
                 }
         }
-        delete[] pixmap;
+}
+
+void BMPRGBA::drawBMP(GLfloat x, GLfloat y){
+        glPixelStorei(GL_UNPACK_ALIGNMENT, //como escribir los pixeles 
+                        1); //sin padding entre filas
+        glRasterPos2i(x, y); //esquina inferior-izquerda donde escribiremos el bloque, usando coordenadas OpenGL de la ventana
+        glDrawPixels(nCols, nRows, //tamaño del bloque
+                        GL_RGB, //datos a escribir: buffer de color, de profundidad, componente alpha...
+                        GL_UNSIGNED_BYTE, //tipo de los datos
+                        pixmap); //origen
 }
 
 

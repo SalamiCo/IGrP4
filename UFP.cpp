@@ -47,6 +47,15 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     // inicialización de las variables del programa
     displacementeIncrease = 10;
     acumulateZoom = 1;
+
+    // BMP
+    string imagepath = "./sample.bmp";
+    bmp.cargaBMP(imagepath);
+    /*if(bmp.cargaBMP(imagepath)){
+        ShowMessage("BMP cargado con exito");
+    } else{
+        ShowMessage("Carga de BMP fallida");
+    }*/
 }
 //---------------------------------------------------------------------------
 void __fastcall TGLForm2D::SetPixelFormatDescriptor()
@@ -108,12 +117,8 @@ void __fastcall TGLForm2D::GLScene()
         tree.DrawTree(selectedSquare);
     }*/
     
-    string imagepath = "C:/Users/Samuel/Downloads/sample.bmp";
-    if(bmp.cargaBMP(imagepath)){
-        ShowMessage("BMP cargado con exito");
-    } else{
-        ShowMessage("Carga de BMP fallida");
-    }
+    
+    bmp.drawBMP(xLeft, yBot);
 
     glFlush();
     SwapBuffers(hdc);

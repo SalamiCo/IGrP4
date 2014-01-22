@@ -22,11 +22,12 @@ class BMPRGBA{
         public:
                 BMPRGBA(){pixmap=NULL; nCols=0; nRows=0;};
                 BMPRGBA(const string& arch);
-                ~BMPRGBA(){};
+                ~BMPRGBA(){delete[] pixmap;};
                 GLuint getCols(){return nCols;};
                 GLuint getRows(){return nRows;};
                 colorRGBA* getBMP(){return pixmap;};
                 bool cargaBMP(const string& arch);
+                void drawBMP(GLfloat x, GLfloat y);
 };
 
 
