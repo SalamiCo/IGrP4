@@ -49,6 +49,8 @@ void BMPRGBA::drawBMP(GLfloat x, GLfloat y){
                         GL_RGB, //datos a escribir: buffer de color, de profundidad, componente alpha...
                         GL_UNSIGNED_BYTE, //tipo de los datos
                         pixmap); //origen
+
+        //Si una de las operaciones devuelve en escala de grises, pixmap es más pequeño. Pasarle a drawPixels GL_LUMINANCE
 }
 
 
