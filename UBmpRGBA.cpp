@@ -53,6 +53,18 @@ void BMPRGBA::drawBMP(GLfloat x, GLfloat y){
         //Si una de las operaciones devuelve en escala de grises, pixmap es más pequeño. Pasarle a drawPixels GL_LUMINANCE
 }
 
+void BMPRGBA::bufferToPixmap(int width, int height, GLfloat x, GLfloat y){
+        unsigned char* m = new unsigned char[3*height*width];
+        glPixelStorei(GL_PACK_ALIGNMENT, //Cómo se leen los pixeles
+         1); //sin padding entre filas
+        glReadPixels(x, y, //esquina inferior-izquierda del bloque,
+                height, width, // tamaño del bloque
+                GL_RGB, //datos a leer
+                GL_UNSIGNED_BYTE, //tipo de los datos
+                m); //destino
+        
+        delete[] m;
+}
 
 
 
