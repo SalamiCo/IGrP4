@@ -27,8 +27,8 @@ class BMPRGBA{
                 GLuint getRows(){return nRows;};
                 colorRGBA* getBMP(){return pixmap;};
                 bool cargaBMP(const string& arch);
-                void drawBMP(GLfloat x, GLfloat y);
-                void static bufferToPixmap(int width, int height, GLfloat x, GLfloat y);
+                void drawPixmap(GLfloat x, GLfloat y);
+                void bufferToPixmap(int width, int height, GLfloat x, GLfloat y);
 };
 
 

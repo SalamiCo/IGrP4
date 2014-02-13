@@ -51,15 +51,9 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     // BMP
     ClientWidth=300;
     ClientHeight=300;
-    bmpOn = true;
+    bmpOn = 0;
     string imagepath = "./sample.bmp";
     bmp.cargaBMP(imagepath);
-
-    /*if(bmp.cargaBMP(imagepath)){
-        ShowMessage("BMP cargado con exito");
-    } else{
-        ShowMessage("Carga de BMP fallida");
-    }*/
 }
 //---------------------------------------------------------------------------
 void __fastcall TGLForm2D::SetPixelFormatDescriptor()
@@ -120,14 +114,19 @@ void __fastcall TGLForm2D::GLScene()
         // Draw the scene
         tree.DrawTree(selectedSquare);
     }*/
-     if(bmpOn){
+     if(bmpOn == 0){
         ClientWidth=300;
         ClientHeight=300;
-        bmp.drawBMP(xLeft, yBot);
-     } else {
+        string imagepath = "./sample.bmp";
+        bmp.cargaBMP(imagepath);
+        bmp.drawPixmap(xLeft, yBot);
+     } else if(bmpOn == 1){
         ClientWidth=600;
         ClientHeight=600;
         tree.DrawTree(selectedSquare);
+     } else if(bmpOn == 3){
+        bmp.drawPixmap(xLeft, yBot);
+        ShowMessage("Imagen dibujada");
      }
     
 
@@ -231,16 +230,27 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 
     // Load BMP or Draw tree
     case 'o':
-        bmpOn = true;
+        bmpOn = 0;
         break;
 
     case 'p':
-        bmpOn = false;
+        bmpOn = 1;
         break;
 
     // Save the tree to pixmap
     case 'l':
-        BMPRGBA::bufferToPixmap(ClientHeight, ClientWidth, xLeft, yBot);
+        bmp.bufferToPixmap(ClientWidth, ClientHeight, xLeft, yBot);
+        ShowMessage("Imagen guardada en pixmap");
+        break;
+
+    //Clear image
+    case 'k':
+        bmpOn = 2;
+        ShowMessage("Imagen borrada");
+        break;
+
+    case 'm':
+        bmpOn = 3;
         break;
     };
 

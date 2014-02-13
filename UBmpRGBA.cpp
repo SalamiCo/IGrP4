@@ -41,7 +41,7 @@ void BMPRGBA::recoloca(Graphics::TBitmap* AuxBMP){
         }
 }
 
-void BMPRGBA::drawBMP(GLfloat x, GLfloat y){
+void BMPRGBA::drawPixmap(GLfloat x, GLfloat y){
         glPixelStorei(GL_UNPACK_ALIGNMENT, //como escribir los pixeles 
                         1); //sin padding entre filas
         glRasterPos2i(x, y); //esquina inferior-izquerda donde escribiremos el bloque, usando coordenadas OpenGL de la ventana
@@ -54,16 +54,17 @@ void BMPRGBA::drawBMP(GLfloat x, GLfloat y){
 }
 
 void BMPRGBA::bufferToPixmap(int width, int height, GLfloat x, GLfloat y){
-        unsigned char* m = new unsigned char[3*height*width];
+        delete[] pixmap;
+        pixmap = new colorRGBA[width * height];
+        nCols = width;
+        nRows = height;
         glPixelStorei(GL_PACK_ALIGNMENT, //Cómo se leen los pixeles
-         1); //sin padding entre filas
+                        1); //sin padding entre filas
         glReadPixels(x, y, //esquina inferior-izquierda del bloque,
-                height, width, // tamaño del bloque
+                width, height, // tamaño del bloque
                 GL_RGB, //datos a leer
                 GL_UNSIGNED_BYTE, //tipo de los datos
-                m); //destino
-        
-        delete[] m;
+                pixmap); //destino
 }
 
 

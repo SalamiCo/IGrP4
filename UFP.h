@@ -49,7 +49,7 @@ private:	// User declarations
  	AnsiString input;
  	//BMP
  	BMPRGBA bmp;
- 	bool bmpOn;
+ 	int bmpOn; // 0: bmp 1: tree 2: clear
 
  	// Private methods
  	void __fastcall SetPixelFormatDescriptor();
