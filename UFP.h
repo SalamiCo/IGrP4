@@ -49,7 +49,10 @@ private:	// User declarations
  	AnsiString input;
  	//BMP
  	BMPRGBA bmp;
- 	int bmpOn; // 0: bmp 1: tree 2: clear
+ 	int bmpOn; // 0: bmp 1: tree 2: clear 3: paint FrameBuffer
+ 	int queImagen;
+ 	string imagepath;
+
 
  	// Private methods
  	void __fastcall SetPixelFormatDescriptor();

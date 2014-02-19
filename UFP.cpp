@@ -52,8 +52,9 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     ClientWidth=300;
     ClientHeight=300;
     bmpOn = 0;
+    queImagen = 1;
     string imagepath = "./sample.bmp";
-    bmp.cargaBMP(imagepath);
+    bmp.cargaBMP(imagepath, queImagen);
 }
 //---------------------------------------------------------------------------
 void __fastcall TGLForm2D::SetPixelFormatDescriptor()
@@ -114,21 +115,21 @@ void __fastcall TGLForm2D::GLScene()
         // Draw the scene
         tree.DrawTree(selectedSquare);
     }*/
-     if(bmpOn == 0){
+    if(bmpOn == 0){ //Cargar BMP
         ClientWidth=300;
         ClientHeight=300;
-        string imagepath = "./sample.bmp";
-        bmp.cargaBMP(imagepath);
-        bmp.drawPixmap(xLeft, yBot);
-     } else if(bmpOn == 1){
+        imagepath = "./sample.bmp";
+        bmp.cargaBMP(imagepath, 1);
+        bmp.drawPixmap(xLeft, yBot, 1);
+    } else if(bmpOn == 1){ //Dibujar árbol
         ClientWidth=600;
         ClientHeight=600;
         tree.DrawTree(selectedSquare);
-     } else if(bmpOn == 3){
-        bmp.drawPixmap(xLeft, yBot);
+    } else if(bmpOn == 3){ //Dibujar lo que haya en Frame Buffer
+        bmp.drawPixmap(xLeft, yBot, 1);
         ShowMessage("Imagen dibujada");
-     }
-    
+    }
+
 
     glFlush();
     SwapBuffers(hdc);
@@ -229,7 +230,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         break;
 
     // Load BMP or Draw tree
-    case 'o':
+    case 'o': //sample.bmp
         bmpOn = 0;
         break;
 
@@ -250,6 +251,22 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         break;
 
     case 'm':
+        bmpOn = 3;
+        break;
+
+    //Media ponderada
+    case '1':
+        imagepath = "./sample2.bmp";
+        bmp.cargaBMP(imagepath, 2);
+        bmp.mediaPonderada();
+        bmpOn = 3;
+        break;
+
+    //Diferencia
+    case '2':
+        imagepath = "./sample-modified.bmp";
+        bmp.cargaBMP(imagepath, 2);
+        bmp.diferencia();
         bmpOn = 3;
         break;
     };
