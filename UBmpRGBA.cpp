@@ -134,6 +134,7 @@ void BMPRGBA::diferencia(){
         }
     }
 
+    //Bucle para la diferencia
     for(int i=0; i < nRows; i++){
         for(int j=0; j < nCols; j++){
             count=i*nCols + j;
@@ -141,6 +142,54 @@ void BMPRGBA::diferencia(){
             pixmap[count][0] = dif;
             pixmap[count][1] = dif;
             pixmap[count][2] = dif;
+        }
+    }
+}
+
+void BMPRGBA::rotate(GLfloat xLeft, GLfloat yBot){
+    int count;
+    int newPosition;
+    //Calculate the center of the image. It will be the center of the rotation
+    GLfloat xCenter = (xLeft + nCols) / 2;
+    GLfloat yCenter = (yBot + nRows) / 2;
+
+    for(int i=0; i < nRows; i++){
+        for(int j=0; j < nCols; j++){
+            count=i*nCols + j;
+            //distance
+            GLfloat xDist = j - xCenter;
+            GLfloat yDist = i - yCenter;
+            //Angle
+            GLfloat angle;
+            if(xDist == 0 && yDist == 0)
+                angle = 0;
+            else
+                angle = atan2(xDist, yDist) - M_PI_2;
+            //Length
+            GLfloat length = sqrt(xDist * xDist + yDist * yDist);
+
+            newPosition = (yCenter + length * sin(angle))*nCols + (xCenter + length * cos(angle));
+            //ShowMessage(IntToStr(count) + " " + IntToStr(newPosition));
+            //if(count == 45299)
+            //    ShowMessage(IntToStr(newPosition));
+            //pixmap[count][0] = pixmap[newPosition][0];
+            //pixmap[count][1] = pixmap[newPosition][1];
+            //pixmap[count][2] = pixmap[newPosition][2];
+        }
+    }
+    //La var count al final del bucle es 89999. La cosa se jode a la mitad de la imagen (45299) al final de la fila
+    ShowMessage(count + " " + IntToStr(newPosition));
+
+}
+
+void BMPRGBA::negative(){
+    int count;
+    for(int i=0; i < nRows; i++){
+        for(int j=0; j < nCols; j++){
+            count=i*nCols + j;
+            pixmap[count][0] = 255 - pixmap[count][0];
+            pixmap[count][1] = 255 - pixmap[count][1];
+            pixmap[count][2] = 255 - pixmap[count][2];
         }
     }
 }

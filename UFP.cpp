@@ -125,7 +125,7 @@ void __fastcall TGLForm2D::GLScene()
         ClientWidth=600;
         ClientHeight=600;
         tree.DrawTree(selectedSquare);
-    } else if(bmpOn == 3){ //Dibujar lo que haya en Frame Buffer
+    } else if(bmpOn == 3){ //Dibujar lo que haya en pixmap
         bmp.drawPixmap(xLeft, yBot, 1);
         ShowMessage("Imagen dibujada");
     }
@@ -229,6 +229,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         Desembaldosar();
         break;
 
+    // **********************************************************************************************************************************
     // Load BMP or Draw tree
     case 'o': //sample.bmp
         bmpOn = 0;
@@ -250,6 +251,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         ShowMessage("Imagen borrada");
         break;
 
+    // Draw pixmap
     case 'm':
         bmpOn = 3;
         break;
@@ -267,6 +269,18 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         imagepath = "./sample-modified.bmp";
         bmp.cargaBMP(imagepath, 2);
         bmp.diferencia();
+        bmpOn = 3;
+        break;
+
+    //Rotation
+    case '3':
+        bmp.rotate(xLeft, yBot);
+        bmpOn = 3;
+        break;
+
+    // Negative
+    case '9':
+        bmp.negative();
         bmpOn = 3;
         break;
     };

@@ -36,6 +36,8 @@ class BMPRGBA{
                 void bufferToPixmap(int width, int height, GLfloat x, GLfloat y);
                 void mediaPonderada();
                 void diferencia();
+                void rotate(GLfloat xLeft, GLfloat yBot);
+                void negative();
 };
 
 
