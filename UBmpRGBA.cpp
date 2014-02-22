@@ -149,9 +149,10 @@ void BMPRGBA::diferencia(){
 void BMPRGBA::rotate(GLfloat xLeft, GLfloat yBot){
     int count;
     int newPosition;
+    colorRGBA* auxiliar = new colorRGBA[nCols * nRows];
     //Calculate the center of the image. It will be the center of the rotation
-    GLfloat xCenter = (xLeft + nCols) / 2;
-    GLfloat yCenter = (yBot + nRows) / 2;
+    GLfloat xCenter = nCols / 2;
+    GLfloat yCenter = nRows / 2;
 
     for(int i=0; i < nRows; i++){
         for(int j=0; j < nCols; j++){
@@ -161,24 +162,31 @@ void BMPRGBA::rotate(GLfloat xLeft, GLfloat yBot){
             GLfloat yDist = i - yCenter;
             //Angle
             GLfloat angle;
-            if(xDist == 0 && yDist == 0)
-                angle = 0;
-            else
-                angle = atan2(xDist, yDist) - M_PI_2;
-            //Length
-            GLfloat length = sqrt(xDist * xDist + yDist * yDist);
+            if(xDist != 0 && yDist != 0){
+                angle = atan2(yDist, xDist) - M_PI_4;
+                //Length
+                GLfloat length = sqrt(xDist * xDist + yDist * yDist);
 
-            newPosition = (yCenter + length * sin(angle))*nCols + (xCenter + length * cos(angle));
-            //ShowMessage(IntToStr(count) + " " + IntToStr(newPosition));
-            //if(count == 45299)
-            //    ShowMessage(IntToStr(newPosition));
-            //pixmap[count][0] = pixmap[newPosition][0];
-            //pixmap[count][1] = pixmap[newPosition][1];
-            //pixmap[count][2] = pixmap[newPosition][2];
+                int newPositionX = xCenter + length * cos(angle);
+                int newPositionY = yCenter + length * sin(angle);
+                    
+                if(newPositionX < nRows && newPositionY < nCols && newPositionX >= 0 && newPositionY >= 0){
+                    newPosition = newPositionY*nCols + newPositionX;
+                    auxiliar[count][0] = pixmap[newPosition][0];
+                    auxiliar[count][1] = pixmap[newPosition][1];
+                    auxiliar[count][2] = pixmap[newPosition][2];
+                } else {
+                    auxiliar[count][0] = 0;
+                    auxiliar[count][1] = 0;
+                    auxiliar[count][2] = 0;
+                }
+            }
+             
         }
     }
-    //La var count al final del bucle es 89999. La cosa se jode a la mitad de la imagen (45299) al final de la fila
-    ShowMessage(count + " " + IntToStr(newPosition));
+
+    delete[] pixmap;
+    pixmap = auxiliar;
 
 }
 
