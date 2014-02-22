@@ -23,6 +23,7 @@ class BMPRGBA{
                 int queImagen; // Si 1, imagen por defecto. Si 2, imagen para ops aritméticas
 
                 void recoloca(Graphics::TBitmap* AuxBMP, int queImagen);
+                void bilinearInterpolation(double newPositionX, double newPositionY);
 
         public:
                 BMPRGBA(){pixmap=NULL; pixmap2Imagen=NULL; nCols=0; nRows=0;};
@@ -36,7 +37,7 @@ class BMPRGBA{
                 void bufferToPixmap(int width, int height, GLfloat x, GLfloat y);
                 void mediaPonderada();
                 void diferencia();
-                void rotate(GLfloat xLeft, GLfloat yBot);
+                void rotate(GLfloat angle);
                 void negative();
 };
 

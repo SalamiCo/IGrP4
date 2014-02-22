@@ -146,7 +146,7 @@ void BMPRGBA::diferencia(){
     }
 }
 
-void BMPRGBA::rotate(GLfloat xLeft, GLfloat yBot){
+void BMPRGBA::rotate(GLfloat angle){
     int count;
     int newPosition;
     colorRGBA* auxiliar = new colorRGBA[nCols * nRows];
@@ -160,15 +160,14 @@ void BMPRGBA::rotate(GLfloat xLeft, GLfloat yBot){
             //distance
             GLfloat xDist = j - xCenter;
             GLfloat yDist = i - yCenter;
-            //Angle
-            GLfloat angle;
             if(xDist != 0 && yDist != 0){
-                angle = atan2(yDist, xDist) - M_PI_4;
+                //Angle
+                GLfloat ang = atan2(yDist, xDist) - angle;
                 //Length
                 GLfloat length = sqrt(xDist * xDist + yDist * yDist);
 
-                int newPositionX = xCenter + length * cos(angle);
-                int newPositionY = yCenter + length * sin(angle);
+                int newPositionX = xCenter + length * cos(ang);
+                int newPositionY = yCenter + length * sin(ang);
                     
                 if(newPositionX < nRows && newPositionY < nCols && newPositionX >= 0 && newPositionY >= 0){
                     newPosition = newPositionY*nCols + newPositionX;
@@ -187,6 +186,10 @@ void BMPRGBA::rotate(GLfloat xLeft, GLfloat yBot){
 
     delete[] pixmap;
     pixmap = auxiliar;
+
+}
+
+void BMPRGBA::bilinearInterpolation(double newPositionX, double newPositionY){
 
 }
 

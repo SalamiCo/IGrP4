@@ -153,6 +153,8 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 {
     GLdouble f = 0.9;
     GLdouble width, height, centerX, centerY;
+    AnsiString angle;
+    GLfloat ang;
 
     switch(Key){
     //Left
@@ -274,7 +276,9 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 
     //Rotation
     case '3':
-        bmp.rotate(xLeft, yBot);
+        angle = InputBox("Rotar la imagen", "Introduzca el ángulo que quiere rotar la imagen: ", "90");
+        ang = StrToInt(angle);
+        bmp.rotate(ang * M_PI / 180);
         bmpOn = 3;
         break;
 
