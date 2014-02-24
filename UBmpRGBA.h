@@ -9,9 +9,33 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <windows.h>
 using namespace std;
 //---------------------------------------------------------------------------
 typedef GLubyte colorRGBA[3];
+typedef struct
+{
+        unsigned char iD[2];      // the magic number used to identify the BMP file: 0x42 0x4D (ASCII code points for B and M)
+        unsigned int filesize;   // the size of the BMP file in bytes
+        unsigned short reserved1;  // reserved; actual value depends on the application that creates the image
+        unsigned short reserved2;  // reserved; actual value depends on the application that creates the image
+        unsigned int dataOffset;  // the offset, i.e. starting address, of the byte where the bitmap data can be found.
+} myBitmapHeader;
+ 
+typedef struct
+{
+        long size;              //the size of this header (40 bytes)
+        long bm_width;          //the bitmap width in pixels (signed integer).
+        long bm_height;         //the bitmap height in pixels (signed integer).
+        short  colPlanes;         //the number of color planes being used. Must be set to 1.
+        short  bitsPerPixel;      //the number of bits per pixel, which is the color depth of the image. Typical values are 1, 4, 8, 16, 24 and 32.
+        long compressionType;   //the compression method being used. See the next table for a list of possible values.
+        long imageSize;         //the image size. This is the size of the raw bitmap data (see below), and should not be confused with the file size.
+        long horRes;            //the horizontal resolution of the image. (pixel per meter, signed integer)
+        long verRes;            //the vertical resolution of the image. (pixel per meter, signed integer)
+        long paletteCols;       //the number of colors in the color palette, or 0 to default to 2n.
+        long importantCols;     //the number of important colors used, or 0 when every color is important; generally ignore
+} dibHeader;
 
 class BMPRGBA{
         private:

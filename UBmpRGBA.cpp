@@ -334,6 +334,3 @@ void BMPRGBA::negative(){
         }
     }
 }
-
-
-
