@@ -49,15 +49,15 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     acumulateZoom = 1;
 
     // BMP
-    ClientWidth=300;
-    ClientHeight=300;
+    ClientWidth=600;
+    ClientHeight=600;
     bmpOn = 0;
-    queImagen = 1;
     clickX = 0;
     clickY = 0;
+    isTree = false;
     string imagepath = "./sample.bmp";
-    bmp.cargaBMP(imagepath, queImagen);
-    ShowMessage("Para la rotación, clicar en la imagen y pulsar el '3'");
+    bmp.cargaBMP(imagepath, 1);
+    //ShowMessage("Para la rotación, clicar en la imagen y pulsar el '3'");
 }
 //---------------------------------------------------------------------------
 void __fastcall TGLForm2D::SetPixelFormatDescriptor()
@@ -119,8 +119,6 @@ void __fastcall TGLForm2D::GLScene()
         tree.DrawTree(selectedSquare);
     }*/
 
-    ClientWidth=600;
-    ClientHeight=600;
     if(bmpOn == 0){ //Cargar BMP
         imagepath = "./sample.bmp";
         bmp.cargaBMP(imagepath, 1);
@@ -128,7 +126,11 @@ void __fastcall TGLForm2D::GLScene()
     } else if(bmpOn == 1){ //Dibujar árbol
         tree.DrawTree(selectedSquare);
     } else if(bmpOn == 3){ //Dibujar lo que haya en pixmap
-        bmp.drawPixmap(-150, -150/*xLeft, yBot*/, 1);
+        if(isTree){
+            bmp.drawPixmap(xLeft, yBot, 1); //el arbol se dibuja 300 px más a la derecha y arriba. Por qué? ES LA COSA.
+        } else {
+            bmp.drawPixmap(-150, -150/*xLeft, yBot*/, 1);
+        }
         ShowMessage("Imagen dibujada");
     }
 
@@ -155,7 +157,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 {
     GLdouble f = 0.9;
     GLdouble width, height, centerX, centerY;
-    AnsiString angle;
+    AnsiString angle, k;
     GLfloat ang;
 
     switch(Key){
@@ -237,14 +239,17 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
     // Load BMP or Draw tree
     case 'o': //sample.bmp
         bmpOn = 0;
+        isTree = false;
         break;
 
     case 'p': //tree
         bmpOn = 1;
+        isTree = true;
         break;
 
     // Save the tree to pixmap
     case 'l':
+        bmpOn = 2;
         bmp.bufferToPixmap(ClientWidth, ClientHeight, xLeft, yBot);
         ShowMessage("Imagen guardada en pixmap");
         break;
@@ -264,7 +269,8 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
     case '1':
         imagepath = "./sample2.bmp";
         bmp.cargaBMP(imagepath, 2);
-        bmp.mediaPonderada();
+        k = InputBox("Factor", "Introduzca el factor K, entre 0 y 1: ", "0.5");
+        bmp.mediaPonderada(atof(k.c_str()));
         bmpOn = 3;
         break;
 
@@ -280,8 +286,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
     case '3':
         angle = InputBox("Rotar la imagen", "Introduzca el ángulo que quiere rotar la imagen: ", "90");
         ang = StrToInt(angle);
-        //bmp.rotate(ang * M_PI / 180);
-        bmp.rotate2(ang * M_PI / 180, clickX, clickY);
+        bmp.rotate(ang * M_PI / 180, clickX, clickY);
         bmpOn = 3;
         break;
 
@@ -292,12 +297,12 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         break;
     };
 
-    glMatrixMode(GL_PROJECTION);
+    /*glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(xLeft,xRight,yBot,yTop);
 
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    glLoadIdentity();*/
     GLScene();
 }
 //---------------------------------------------------------------------------

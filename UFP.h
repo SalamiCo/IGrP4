@@ -51,9 +51,9 @@ private:	// User declarations
  	//BMP
  	BMPRGBA bmp;
  	int bmpOn; // 0: bmp 1: tree 2: clear 3: paint FrameBuffer
- 	int queImagen;
  	string imagepath;
  	int clickX, clickY; //Where to start rotation of pixmap
+ 	bool isTree;
 
 
  	// Private methods

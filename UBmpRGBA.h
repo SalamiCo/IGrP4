@@ -36,11 +36,11 @@ class BMPRGBA{
                 bool cargaBMP(const string& arch, int queImagen);
                 void drawPixmap(GLfloat x, GLfloat y, int queImagen);
                 void bufferToPixmap(int width, int height, GLfloat x, GLfloat y);
-                void mediaPonderada();
+                void mediaPonderada(double k);
                 void diferencia();
-                void rotate(GLfloat angle);
-                void rotate2(GLfloat angle, int x, int y);
+                void rotate(GLfloat angle, int x, int y);
                 int bilinearInterpolation(double newPositionX, double newPositionY, int rgb);
+                void gaussianBlur();
                 void negative();
 };
 

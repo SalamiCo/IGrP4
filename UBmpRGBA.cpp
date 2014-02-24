@@ -95,11 +95,10 @@ void BMPRGBA::bufferToPixmap(int width, int height, GLfloat x, GLfloat y){
             pixmap); //destino
 }
 
-void BMPRGBA::mediaPonderada(){
+void BMPRGBA::mediaPonderada(double k){
     //c(i,j) = ka(i,j) + (1-k)b(i,j), k [0,1]
     int count;
     int n = 0;
-    double k = 0.5;
 
     for(int i=0; i < nRows; i++){
         //k = n/nRows;
@@ -146,50 +145,7 @@ void BMPRGBA::diferencia(){
     }
 }
 
-void BMPRGBA::rotate(GLfloat angle){
-    int count;
-    int newPosition;
-    colorRGBA* auxiliar = new colorRGBA[nCols * nRows];
-    //Calculate the center of the image. It will be the center of the rotation
-    GLfloat xCenter = nCols / 2;
-    GLfloat yCenter = nRows / 2;
-
-    for(int i=0; i < nRows; i++){
-        for(int j=0; j < nCols; j++){
-            count=i*nCols + j;
-            //distance
-            GLfloat xDist = j - xCenter;
-            GLfloat yDist = i - yCenter;
-            if(xDist != 0 && yDist != 0){
-                //Angle
-                GLfloat ang = atan2(yDist, xDist) - angle;
-                //Length
-                GLfloat length = sqrt(xDist * xDist + yDist * yDist);
-
-                int newPositionX = xCenter + length * cos(ang);
-                int newPositionY = yCenter + length * sin(ang);
-                    
-                if(newPositionX < nRows && newPositionY < nCols && newPositionX >= 0 && newPositionY >= 0){
-                    newPosition = newPositionY*nCols + newPositionX;
-                    auxiliar[count][0] = pixmap[newPosition][0];
-                    auxiliar[count][1] = pixmap[newPosition][1];
-                    auxiliar[count][2] = pixmap[newPosition][2];
-                } else {
-                    auxiliar[count][0] = 0;
-                    auxiliar[count][1] = 0;
-                    auxiliar[count][2] = 0;
-                }
-            }
-             
-        }
-    }
-
-    delete[] pixmap;
-    pixmap = auxiliar;
-
-}
-
-void BMPRGBA::rotate2(GLfloat angle, int x, int y){
+void BMPRGBA::rotate(GLfloat angle, int x, int y){
     int count;
     int newPosition;
     colorRGBA* auxiliar = new colorRGBA[nCols * nRows];
@@ -264,6 +220,10 @@ int BMPRGBA::bilinearInterpolation(double newPositionX, double newPositionY, int
 
     return pos + pos2 + pos3 + pos4;
     
+}
+
+void BMPRGBA::gaussianBlur(){
+
 }
 
 void BMPRGBA::negative(){
