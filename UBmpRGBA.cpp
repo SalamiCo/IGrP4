@@ -236,36 +236,37 @@ void BMPRGBA::gaussianBlur(){
 
 void BMPRGBA::getGaussianMascara(){
     int m = 1;
-    int sigma = 1.5;
+    double sigma = 1.5;
     int count = 0;
-    int num, den = 2*(sigma*sigma);
-    double sum; 
+    double num, den = 2*(sigma*sigma);
+    double sum = 0.0; 
 
     for(int j=-m; j <= m; j++){
         for (int i=m; i >=- m; i--){
             num = i*i + j*j;
             mascara[count] = exp(-num / den) / (den*M_PI);
             sum += mascara[count];
+            count++;
         }
     }
 
     for(int k=0; k < 9; k++){
-        mascara[count] /= sum;
+        mascara[k] /= sum;
     }
 }
 
 void BMPRGBA::colorBlur(int x, int y){
     int count = x*nCols + y;
 
-    int w0 = count - nCols - 1;
-    int w1 = count - nCols;
-    int w2 = count - nCols + 1;
+    int w0 = count + nCols - 1;
+    int w1 = count + nCols;
+    int w2 = count + nCols + 1;
     int w3 = count - 1;
     int w4 = count;
     int w5 = count + 1;
-    int w6 = count + nCols - 1;
-    int w7 = count + nCols;
-    int w8 = count + nCols + 1;
+    int w6 = count - nCols - 1;
+    int w7 = count - nCols;
+    int w8 = count - nCols + 1;
 
     double r = mascara[4] * pixmap[w4][0];
     double g = mascara[4] * pixmap[w4][1];
