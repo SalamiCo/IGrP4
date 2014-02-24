@@ -228,7 +228,7 @@ int BMPRGBA::bilinearInterpolation(double newPositionX, double newPositionY, int
 void BMPRGBA::gaussianBlur(){
     getGaussianMascara();
     for(int i=0; i < nRows; i++){
-        for(int j=0; j < nCols; j++){
+        for(int j=0; j < nCols/2; j++){
             colorBlur(i,j);
         }
     }

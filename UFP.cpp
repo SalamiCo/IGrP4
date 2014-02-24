@@ -292,6 +292,8 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 
     //Gaussian Blur
     case '4':
+        imagepath = "./blur.bmp";
+        bmp.cargaBMP(imagepath, 1);
         bmp.gaussianBlur();
         bmpOn = 3;
         break;
