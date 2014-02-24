@@ -85,17 +85,20 @@ void BMPRGBA::drawPixmap(GLfloat x, GLfloat y, int queImagen){
 }
 
 void BMPRGBA::bufferToPixmap(int width, int height, GLfloat x, GLfloat y){
-    delete[] pixmap;
-    pixmap = new colorRGBA[width * height];
-    nCols = width;
+     delete[] pixmap;
+    pixmap = new colorRGBA[3*height*width];
+
     nRows = height;
+    nCols = width;
+
     glPixelStorei(GL_PACK_ALIGNMENT, //Cómo se leen los pixeles
-                    1); //sin padding entre filas
+        1); //sin padding entre filas
+
     glReadPixels(x, y, //esquina inferior-izquierda del bloque,
-            width, height, // tamaño del bloque
-            GL_RGB, //datos a leer
-            GL_UNSIGNED_BYTE, //tipo de los datos
-            pixmap); //destino
+        nCols, nRows, // tamaño del bloque
+        GL_RGB,  //datos a leer
+        GL_UNSIGNED_BYTE, //tipo de los datos
+        pixmap); //destino
 }
 
 void BMPRGBA::mediaPonderada(double k){

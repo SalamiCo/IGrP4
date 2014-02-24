@@ -249,7 +249,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
     // Save the tree to pixmap
     case 'l':
         bmpOn = 2;
-        bmp.bufferToPixmap(ClientWidth, ClientHeight, xLeft, yBot);
+        bmp.bufferToPixmap(ClientWidth, ClientHeight, xLeft+300, yBot+300);
         ShowMessage("Imagen guardada en pixmap");
         break;
 
