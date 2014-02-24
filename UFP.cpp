@@ -53,8 +53,11 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     ClientHeight=300;
     bmpOn = 0;
     queImagen = 1;
+    clickX = 0;
+    clickY = 0;
     string imagepath = "./sample.bmp";
     bmp.cargaBMP(imagepath, queImagen);
+    ShowMessage("Para la rotación, clicar en la imagen y pulsar el '3'");
 }
 //---------------------------------------------------------------------------
 void __fastcall TGLForm2D::SetPixelFormatDescriptor()
@@ -115,18 +118,17 @@ void __fastcall TGLForm2D::GLScene()
         // Draw the scene
         tree.DrawTree(selectedSquare);
     }*/
+
+    ClientWidth=600;
+    ClientHeight=600;
     if(bmpOn == 0){ //Cargar BMP
-        ClientWidth=300;
-        ClientHeight=300;
         imagepath = "./sample.bmp";
         bmp.cargaBMP(imagepath, 1);
-        bmp.drawPixmap(xLeft, yBot, 1);
+        bmp.drawPixmap(-150, -150/*xLeft, yBot*/, 1);
     } else if(bmpOn == 1){ //Dibujar árbol
-        ClientWidth=600;
-        ClientHeight=600;
         tree.DrawTree(selectedSquare);
     } else if(bmpOn == 3){ //Dibujar lo que haya en pixmap
-        bmp.drawPixmap(xLeft, yBot, 1);
+        bmp.drawPixmap(-150, -150/*xLeft, yBot*/, 1);
         ShowMessage("Imagen dibujada");
     }
 
@@ -237,7 +239,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         bmpOn = 0;
         break;
 
-    case 'p':
+    case 'p': //tree
         bmpOn = 1;
         break;
 
@@ -278,7 +280,8 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
     case '3':
         angle = InputBox("Rotar la imagen", "Introduzca el ángulo que quiere rotar la imagen: ", "90");
         ang = StrToInt(angle);
-        bmp.rotate(ang * M_PI / 180);
+        //bmp.rotate(ang * M_PI / 180);
+        bmp.rotate2(ang * M_PI / 180, clickX, clickY);
         bmpOn = 3;
         break;
 
@@ -302,7 +305,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 void __fastcall TGLForm2D::FormMouseDown(TObject *Sender,
       TMouseButton Button, TShiftState Shift, int X, int Y)
 {
-    switch(Button){
+    /*switch(Button){
         //Left button
         case 0:
             // (0,0) is in up-left corner. X grows to the right, Y to the bottom
@@ -323,7 +326,12 @@ void __fastcall TGLForm2D::FormMouseDown(TObject *Sender,
             GLdouble yp = yTop - (Y / h);
             selectedSquare = tree.SelectSquare(xp,yp);
             break;
-    };
+    };*/
+
+    clickX = (int) (((xRight - xLeft)*X)/ClientWidth) + xLeft;
+    clickY = (int) yTop - (((yTop - yBot)*Y)/ClientHeight);
+
+    ShowMessage("Clicked at (" + IntToStr(clickX) + ", " + IntToStr(clickY) + ")");
 
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();

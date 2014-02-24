@@ -189,8 +189,81 @@ void BMPRGBA::rotate(GLfloat angle){
 
 }
 
-void BMPRGBA::bilinearInterpolation(double newPositionX, double newPositionY){
+void BMPRGBA::rotate2(GLfloat angle, int x, int y){
+    int count;
+    int newPosition;
+    colorRGBA* auxiliar = new colorRGBA[nCols * nRows];
+    //Coordenates where the image is rotating
+    GLfloat xCenter = (nCols / 2) + x;
+    GLfloat yCenter = (nRows / 2) + y;
+    //ShowMessage("X: "+ IntToStr((int)xCenter) + "Y: " + IntToStr((int)yCenter));
 
+    for(int i=0; i < nRows; i++){
+        for(int j=0; j < nCols; j++){
+            count=i*nCols + j;
+            //distance
+            GLfloat xDist = j - xCenter;
+            GLfloat yDist = i - yCenter;
+            if(xDist != 0 && yDist != 0){
+                //Angle
+                GLfloat ang = atan2(yDist, xDist) - angle;
+                //Length
+                GLfloat length = sqrt(xDist * xDist + yDist * yDist);
+
+                double newPositionX = xCenter + length * cos(ang);
+                double newPositionY = yCenter + length * sin(ang);
+                    
+                if(newPositionX < nRows && newPositionY < nCols && newPositionX >= 0 && newPositionY >= 0){
+                    //newPosition = newPositionY*nCols + newPositionX;
+                    //auxiliar[count][0] = pixmap[newPosition][0];
+                    //auxiliar[count][1] = pixmap[newPosition][1];
+                    //auxiliar[count][2] = pixmap[newPosition][2];
+                    auxiliar[count][0] = bilinearInterpolation(newPositionX, newPositionY, 0);
+                    auxiliar[count][1] = bilinearInterpolation(newPositionX, newPositionY, 1);
+                    auxiliar[count][2] = bilinearInterpolation(newPositionX, newPositionY, 2);
+                } else {
+                    auxiliar[count][0] = 0;
+                    auxiliar[count][1] = 0;
+                    auxiliar[count][2] = 0;
+                }
+            }
+             
+        }
+    }
+
+    delete[] pixmap;
+    pixmap = auxiliar;
+
+}
+
+int BMPRGBA::bilinearInterpolation(double newPositionX, double newPositionY, int rgb){
+    int pos, pos2, pos3, pos4;
+    double decimalX, decimalY;
+    int newPosition = (int)newPositionY*nCols + (int)newPositionX;
+
+    //Parte_decimal = numero-parte_entera
+    decimalX = newPositionX - (int)newPositionX;
+    decimalY = newPositionY - (int)newPositionY;
+
+    pos = ((1 - decimalX)*(1 - decimalY)*pixmap[newPosition][rgb]); //pixmap(i,j)
+    if(newPosition+1 >= getSize()){
+        pos2 = 0;
+    } else {
+        pos2 = ((1 - decimalX) * decimalY * pixmap[newPosition + 1][rgb]); //pixmap(i, j+1)
+    }
+    if(newPosition+nCols+1 >= getSize()){
+        pos3 = 0;
+    } else {
+        pos3 = (decimalX * decimalY * pixmap[newPosition + nCols + 1][rgb]); //pixmap(i+1, j+1)
+    }
+    if (newPosition+nCols >= getSize()){
+        pos4 = 0;
+    } else {
+        pos4 = (decimalX * (1 - decimalY) * pixmap[newPosition + nCols][rgb]); //pixmap(i+1, j)
+    }
+
+    return pos + pos2 + pos3 + pos4;
+    
 }
 
 void BMPRGBA::negative(){
