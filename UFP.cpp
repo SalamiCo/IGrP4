@@ -271,6 +271,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         k = InputBox("Factor", "Introduzca el factor K, entre 0 y 1: ", "0.5");
         bmp.mediaPonderada(atof(k.c_str()));
         bmpOn = 3;
+        isTree = false;
         break;
 
     //Diferencia
@@ -279,6 +280,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         bmp.cargaBMP(imagepath, 2);
         bmp.diferencia();
         bmpOn = 3;
+        isTree = false;
         break;
 
     //Rotation
