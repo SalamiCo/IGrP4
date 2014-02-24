@@ -304,12 +304,6 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         break;
     };
 
-    /*glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(xLeft,xRight,yBot,yTop);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();*/
     GLScene();
 }
 //---------------------------------------------------------------------------
@@ -350,12 +344,6 @@ void __fastcall TGLForm2D::FormMouseDown(TObject *Sender,
     bmp.rotate(ang * M_PI / 180, clickX, clickY);
     bmpOn = 3;
 
-    /*glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    gluOrtho2D(xLeft,xRight,yBot,yTop);
-
-    glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();*/
     GLScene();
 }
 //---------------------------------------------------------------------------
