@@ -57,7 +57,6 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     isTree = false;
     string imagepath = "./sample.bmp";
     bmp.cargaBMP(imagepath, 1);
-    //ShowMessage("Para la rotación, clicar en la imagen y pulsar el '3'");
 }
 //---------------------------------------------------------------------------
 void __fastcall TGLForm2D::SetPixelFormatDescriptor()
@@ -344,14 +343,19 @@ void __fastcall TGLForm2D::FormMouseDown(TObject *Sender,
     clickX = (int) (((xRight - xLeft)*X)/ClientWidth) + xLeft;
     clickY = (int) yTop - (((yTop - yBot)*Y)/ClientHeight);
 
-    ShowMessage("Clicked at (" + IntToStr(clickX) + ", " + IntToStr(clickY) + ")");
+    //ShowMessage("Clicked at (" + IntToStr(clickX) + ", " + IntToStr(clickY) + ")");
 
-    glMatrixMode(GL_PROJECTION);
+    AnsiString angle = InputBox("Rotar la imagen", "Introduzca el ángulo que quiere rotar la imagen: ", "90");
+    GLfloat ang = StrToInt(angle);
+    bmp.rotate(ang * M_PI / 180, clickX, clickY);
+    bmpOn = 3;
+
+    /*glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(xLeft,xRight,yBot,yTop);
 
     glMatrixMode(GL_MODELVIEW);
-    glLoadIdentity();
+    glLoadIdentity();*/
     GLScene();
 }
 //---------------------------------------------------------------------------
