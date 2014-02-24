@@ -21,9 +21,12 @@ class BMPRGBA{
                 colorRGBA* pixmap;
                 colorRGBA* pixmap2Imagen;
                 int queImagen; // Si 1, imagen por defecto. Si 2, imagen para ops aritméticas
+                double mascara[9];
 
                 void recoloca(Graphics::TBitmap* AuxBMP, int queImagen);
                 void bilinearInterpolation(double newPositionX, double newPositionY);
+                void getGaussianMascara();
+                void colorBlur(int x, int y);
 
         public:
                 BMPRGBA(){pixmap=NULL; pixmap2Imagen=NULL; nCols=0; nRows=0;};

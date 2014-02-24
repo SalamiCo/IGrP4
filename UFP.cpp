@@ -290,6 +290,12 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         bmpOn = 3;
         break;
 
+    //Gaussian Blur
+    case '4':
+        bmp.gaussianBlur();
+        bmpOn = 3;
+        break;
+
     // Negative
     case '9':
         bmp.negative();

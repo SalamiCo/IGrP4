@@ -8,6 +8,9 @@
 BMPRGBA::BMPRGBA(const string& arch){
     pixmap=NULL; nCols=0; nRows=0;
     pixmap2Imagen=NULL; queImagen=1;
+    for(int i=0; i < 9; i++){
+        mascara[i] = 0;
+    }
     cargaBMP(arch, queImagen);
 }
 
@@ -223,7 +226,97 @@ int BMPRGBA::bilinearInterpolation(double newPositionX, double newPositionY, int
 }
 
 void BMPRGBA::gaussianBlur(){
+    getGaussianMascara();
+    for(int i=0; i < nRows; i++){
+        for(int j=0; j < nCols; j++){
+            colorBlur(i,j);
+        }
+    }
+}
 
+void BMPRGBA::getGaussianMascara(){
+    int m = 1;
+    int sigma = 1.5;
+    int count = 0;
+    int num, den = 2*(sigma*sigma);
+    double sum; 
+
+    for(int j=-m; j <= m; j++){
+        for (int i=m; i >=- m; i--){
+            num = i*i + j*j;
+            mascara[count] = exp(-num / den) / (den*M_PI);
+            sum += mascara[count];
+        }
+    }
+
+    for(int k=0; k < 9; k++){
+        mascara[count] /= sum;
+    }
+}
+
+void BMPRGBA::colorBlur(int x, int y){
+    int count = x*nCols + y;
+
+    int w0 = count - nCols - 1;
+    int w1 = count - nCols;
+    int w2 = count - nCols + 1;
+    int w3 = count - 1;
+    int w4 = count;
+    int w5 = count + 1;
+    int w6 = count + nCols - 1;
+    int w7 = count + nCols;
+    int w8 = count + nCols + 1;
+
+    double r = mascara[4] * pixmap[w4][0];
+    double g = mascara[4] * pixmap[w4][1];
+    double b = mascara[4] * pixmap[w4][2];
+
+    if(x < nRows-1 && y > 0){
+        r += mascara[0] * pixmap[w0][0];
+        g += mascara[0] * pixmap[w0][1];
+        b += mascara[0] * pixmap[w0][2];
+    }
+
+    if(y > 0 && x < nRows-1){
+        r += mascara[1] * pixmap[w1][0];
+        g += mascara[1] * pixmap[w1][1];
+        b += mascara[1] * pixmap[w1][2];
+    }
+    if(x < nRows-1 && y < nCols-1){
+        r += mascara[2] * pixmap[w2][0];
+        g += mascara[2] * pixmap[w2][1];
+        b += mascara[2] * pixmap[w2][2];
+    }
+    if(y > 0){
+        r += mascara[3] * pixmap[w3][0];
+        g += mascara[3] * pixmap[w3][1];
+        b += mascara[3] * pixmap[w3][2];
+    }
+
+    if(y < nCols-1){
+        r += mascara[5] * pixmap[w5][0];
+        g += mascara[5] * pixmap[w5][1];
+        b += mascara[5] * pixmap[w5][2];
+    }
+    if(x > 0 && y > 0){
+        r += mascara[6] * pixmap[w6][0];
+        g += mascara[6] * pixmap[w6][1];
+        b += mascara[6] * pixmap[w6][2];
+    }
+    if(x < nRows-1 && x > 0){
+        r += mascara[7] * pixmap[w7][0];
+        g += mascara[7] * pixmap[w7][1];
+        b += mascara[7] * pixmap[w7][2];
+    }
+    if(x > 0 && y < nCols-1){
+        r += mascara[8] * pixmap[w8][0];
+        g += mascara[8] * pixmap[w8][1];
+        b += mascara[8] * pixmap[w8][2];
+    }
+
+    pixmap[count][0] = r;
+    pixmap[count][1] = g;
+    pixmap[count][2] = b;
 }
 
 void BMPRGBA::negative(){
