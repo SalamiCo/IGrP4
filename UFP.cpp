@@ -121,14 +121,14 @@ void __fastcall TGLForm2D::GLScene()
     if(bmpOn == 0){ //Cargar BMP
         imagepath = "./sample.bmp";
         bmp.cargaBMP(imagepath, 1);
-        bmp.drawPixmap(-300, -300/*xLeft, yBot*/, 1);
+        bmp.drawPixmap(-300, -300, 1);
     } else if(bmpOn == 1){ //Dibujar árbol
         tree.DrawTree(selectedSquare);
     } else if(bmpOn == 3){ //Dibujar lo que haya en pixmap
         if(isTree){
-            bmp.drawPixmap(xLeft, yBot, 1); //el arbol se dibuja 300 px más a la derecha y arriba. Por qué? ES LA COSA.
+            bmp.drawPixmap(xLeft, yBot, 1);
         } else {
-            bmp.drawPixmap(-300, -300/*xLeft, yBot*/, 1);
+            bmp.drawPixmap(-300, -300, 1);
         }
         ShowMessage("Imagen dibujada");
     }
@@ -293,8 +293,6 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 
     //Gaussian Blur
     case '4':
-        //imagepath = "./blur.bmp";
-        //bmp.cargaBMP(imagepath, 1);
         bmp.gaussianBlur();
         bmpOn = 3;
         break;
