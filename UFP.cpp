@@ -235,13 +235,14 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
         break;
 
     // **********************************************************************************************************************************
-    // Load BMP or Draw tree
+    // Load BMP
     case 'o': //sample.bmp
         bmpOn = 0;
         isTree = false;
         break;
 
-    case 'p': //tree
+    // Draw tree
+    case 'p':
         bmpOn = 1;
         isTree = true;
         break;
