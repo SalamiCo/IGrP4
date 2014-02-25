@@ -1,5 +1,5 @@
-//Samuel Mendez Galán
-//Pedro Morgado Alarcón
+//Samuel Mendez Galï¿½n
+//Pedro Morgado Alarcï¿½n
 
 //---------------------------------------------------------------------------
 
@@ -29,12 +29,12 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Cor de fondo de la ventana
     glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-    //inicialización del volumen de vista
+    //inicializaciï¿½n del volumen de vista
     xRight=200.0; xLeft=-xRight;
     yTop=xRight; yBot=-yTop;
     //Radio del volumen de vista == 1
 
-    //inicialización del puerto de vista
+    //inicializaciï¿½n del puerto de vista
     //ClientWidth=400;
     //ClientHeight=400;
     RatioViewPort=1.0;
@@ -44,7 +44,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     lvl = 0;
     baldosas = false;
 
-    // inicialización de las variables del programa
+    // inicializaciï¿½n de las variables del programa
     displacementeIncrease = 10;
     acumulateZoom = 1;
 
@@ -286,7 +286,7 @@ void __fastcall TGLForm2D::FormKeyPress(TObject *Sender, char &Key)
 
     //Rotation
     case '3':
-        angle = InputBox("Rotar la imagen", "Introduzca el ángulo que quiere rotar la imagen: ", "90");
+        angle = InputBox("Rotar la imagen", "Introduzca el ï¿½ngulo que quiere rotar la imagen: ", "90");
         ang = StrToInt(angle);
         bmp.rotate(ang * M_PI / 180, clickX, clickY);
         bmpOn = 3;
@@ -340,7 +340,7 @@ void __fastcall TGLForm2D::FormMouseDown(TObject *Sender,
 
     //ShowMessage("Clicked at (" + IntToStr(clickX) + ", " + IntToStr(clickY) + ")");
 
-    AnsiString angle = InputBox("Rotar la imagen", "Introduzca el ángulo que quiere rotar la imagen: ", "90");
+    AnsiString angle = InputBox("Rotar la imagen", "Introduzca el ï¿½ngulo que quiere rotar la imagen: ", "90");
     GLfloat ang = StrToInt(angle);
     bmp.rotate(ang * M_PI / 180, clickX, clickY);
     bmpOn = 3;
